@@ -1,0 +1,65 @@
+<?php
+//hook_schema();
+
+
+function Indicator_schema() {
+
+  $schema['Indicator'] = array(
+    'description' => 'Guarda los datos de los participantes',
+    'fields' => array(
+      'pid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Identificador único del participante.',
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "Creador de usuarios {users}.uid",
+      ),
+      'nombre' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Nombre del participante.',
+      ),
+      'apellido' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Apellido del participante.',
+      ),
+      'edad' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+        'description' => 'Edad del participante.',
+      ),
+    ),
+    'primary key' => array('pid'),
+    'indexes' => array(
+      'nombre' => array('nombre'),
+      'apellido' => array('apellido'),
+      'edad' => array('edad'),
+    ),
+  );
+  return $schema;
+}
+
+
+
+//hook_install();
+function Indicator_install(){
+$database = \Drupal::database();
+$query = $database->insert('Indicator')->fields(['nombre', 'apellido', 'edad', 'uid']);
+$query->execute();
+}
+
+
+
+
+
